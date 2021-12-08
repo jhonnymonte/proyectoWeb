@@ -1,0 +1,37 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+# Create your models here.
+
+class Categorias(models.Model):
+    nombre=models.CharField(max_length=50)
+    created=models.DateTimeField(auto_now_add=True) #crea fecha automaticamente
+    updated=models.DateTimeField(auto_now_add=True) #modifica fecha automaticamente
+    #creo subclase verbose
+    class Meta:
+        
+        verbose_name = 'categoria'
+        verbose_name_plural = 'categorias'
+    #retorno titulo
+    def __str__(self):
+        return self.nombre
+
+class Post(models.Model):
+    titulo=models.CharField(max_length=50)
+    contenido=models.CharField(max_length=50)
+    imagen=models.ImageField(upload_to='blog',null=True,blank=True)
+    autor=models.ForeignKey(User, on_delete=models.CASCADE)
+    Categorias=models.ManyToManyField(Categorias)
+
+    created=models.DateTimeField(auto_now_add=True) #crea fecha automaticamente
+    updated=models.DateTimeField(auto_now_add=True) #modifica fecha automaticamente
+    #creo subclase verbose
+    class Meta:
+        
+        verbose_name = 'post'
+        verbose_name_plural = 'posts'
+    #retorno titulo
+    def __str__(self):
+        return self.titulo
+
+
